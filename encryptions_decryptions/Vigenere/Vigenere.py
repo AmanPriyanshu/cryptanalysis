@@ -1,6 +1,7 @@
 ## Vignere Cipher:
 from random import randint
 from random import choice
+import binascii
 
 class Vigenere_Encryption:
 
@@ -10,7 +11,7 @@ class Vigenere_Encryption:
 		self.plain_text = plain_text
 		self.cipher_text = cipher_text
 		self.key = key
-		self.k_padded = ""
+		#self.k_padded = ""
 		self.sequence = sequence
 		Vigenere_Encryption.nos_of_encryptions += 1
 
@@ -28,7 +29,7 @@ class Vigenere_Encryption:
 			else:
 				self.k_padded += i
 
-	def encryption(self):
+	def encryption_add(self):
 		for i,j in zip(self.plain_text, self.k_padded):
 			#self.cipher_text = self.cipher_text + self.sequence[(self.sequence.index(i) + self.sequence.index(j))%len(self.sequence)]
 			try:
@@ -38,7 +39,7 @@ class Vigenere_Encryption:
 
 		return self.cipher_text	
 
-	def decryption(self):
+	def decryption_add(self):
 		for i,j in zip(self.cipher_text, self.k_padded):
 			#self.cipher_text = self.cipher_text + self.sequence[(self.sequence.index(i) + self.sequence.index(j))%len(self.sequence)]
 			try:
@@ -48,10 +49,14 @@ class Vigenere_Encryption:
 
 		return self.plain_text	
 
+	def encryption_xor(self):
+		for i,j in zip(self.plain_text, range(len(self.plain_text))):
+			self.cipher_text += chr(i^self.key[j%len(self.key)])
+		return self.cipher_text
 
 
 def main():
-	opt = int(input("Enter 1 for encryption and 2 for decryption"))
+	opt = int(input("Enter 1 for encryption-add and 2 for decryption-add or 3 for encryption-xor and 4 for decryption-xor"))
 	opt -= 1
 	if opt == 0:
 		plain_text = input("Enter Plain Text:\t")
@@ -61,9 +66,9 @@ def main():
 		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
 		#v.padding_simple(len(plain_text))
 		v.padding_ignore(plain_text)
-		c = v.encryption()
+		c = v.encryption_add()
 		print(c)
-	else:
+	elif opt == 1:
 		cipher_text = input("Enter Cipher Text:\t")
 		sequence = input("Enter sequence of character:\t")
 		key = input("Enter Key:\t")
@@ -71,8 +76,22 @@ def main():
 		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
 		#v.padding_simple(len(cipher_text))
 		v.padding_ignore(cipher_text)
-		p = v.decryption()
+		p = v.decryption_add()
 		print(p)
+	elif opt==2:
+		plain_text = input("Enter Plain Text:\t")
+		sequence = ""#input("Enter sequence of character:\t")
+		key = input("Enter Key:\t")
+		cipher_text = ""
+
+		plain_text = binascii.hexlify(plain_text.encode())
+		key = binascii.hexlify(key.encode())
+
+		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
+		c = v.encryption_xor()
+		print(type(b'bruh'))
+		print(binascii.unhexlify(c))
+
 
 	
 	
@@ -92,3 +111,6 @@ def health_check():
 		
 main()
 ## TO check whether key_padding works please use the health function
+
+## Simple padding can be removed if we use the simple case where we can just mod key over and over again. 
+## The issue of such padding does not exist for ex-or encryption/decryption or atleast I haven't found yet.
