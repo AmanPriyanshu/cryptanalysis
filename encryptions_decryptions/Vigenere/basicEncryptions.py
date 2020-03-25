@@ -56,7 +56,7 @@ def main():
 
 
 
-def health_check(self):
+def health_check():
 	sequence = list(string.ascii_lowercase)
 	for i in range(10):
 		len_plain_text = randint(10, 50)
