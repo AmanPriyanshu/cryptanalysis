@@ -6,22 +6,22 @@ class Vigenere_Encryption:
 
 	nos_of_encryptions = 0
 
-	def __init__(self, plain_text, key, sequence):
+	def __init__(self, plain_text, key, sequence, cipher_text):
 		self.plain_text = plain_text
-		self.cipher_text = ""
+		self.cipher_text = cipher_text
 		self.key = key
 		self.k_padded = ""
 		self.sequence = sequence
 		Vigenere_Encryption.nos_of_encryptions += 1
 
-	def padding_simple(self):
-		self.k_padded = ''.join([self.key for i in range(len(self.plain_text)//len(self.key))]) + self.key[:len(self.plain_text)%len(self.key)]
-		if len(self.k_padded) != len(self.plain_text):
+	def padding_simple(self, length):
+		self.k_padded = ''.join([self.key for i in range(length//len(self.key))]) + self.key[:length%len(self.key)]
+		if len(self.k_padded) != length:
 			raise Exception("Padded Key Length does not match length of Plain Text")
 
-	def padding_ignore(self):
+	def padding_ignore(self, string_inp):
 		c = 0
-		for i in self.plain_text:
+		for i in string_inp:
 			if self.sequence.find(i) != -1:
 				self.k_padded += self.key[c%len(self.key)]
 				c += 1
@@ -38,17 +38,42 @@ class Vigenere_Encryption:
 
 		return self.cipher_text	
 
+	def decryption(self):
+		for i,j in zip(self.cipher_text, self.k_padded):
+			#self.cipher_text = self.cipher_text + self.sequence[(self.sequence.index(i) + self.sequence.index(j))%len(self.sequence)]
+			try:
+				self.plain_text = self.plain_text + self.sequence[(self.sequence.index(i) - self.sequence.index(j))%len(self.sequence)]
+			except:
+				self.plain_text = self.plain_text + i
+
+		return self.plain_text	
+
+
 
 def main():
-	plain_text = input("Enter Plain Text:\t")
-	sequence = input("Enter sequence of character:\t")
-	key = input("Enter Key:\t")
+	opt = int(input("Enter 1 for encryption and 2 for decryption"))
+	opt -= 1
+	if opt == 0:
+		plain_text = input("Enter Plain Text:\t")
+		sequence = input("Enter sequence of character:\t")
+		key = input("Enter Key:\t")
+		cipher_text = ""
+		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
+		v.padding_simple(len(plain_text))
+		#v.padding_ignore(plain_text)
+		c = v.encryption()
+		print(c)
+	else:
+		cipher_text = input("Enter Cipher Text:\t")
+		sequence = input("Enter sequence of character:\t")
+		key = input("Enter Key:\t")
+		plain_text = ""
+		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
+		v.padding_simple(len(cipher_text))
+		#v.padding_ignore(cipher_text)
+		p = v.decryption()
+		print(p)
 
-	v = Vigenere_Encryption(plain_text, key, sequence)
-	v.padding_simple()
-	#v.padding_ignore()
-	c = v.encryption()
-	print(c)	
 	
 	
 
