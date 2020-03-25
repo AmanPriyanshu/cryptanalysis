@@ -26,7 +26,8 @@ class Vigenere_cracker():
 
 	def frequency_analyzer(self):
 		# summation: q(0-255)^2
-		print('bruh')
+		#Segmentation TODO
+		print('')
 
 
 	def key_size_predictor(self):
