@@ -49,14 +49,11 @@ class Vigenere_Encryption:
 
 		return self.plain_text	
 
-	def encryption_xor(self):
-		for i,j in zip(self.plain_text, range(len(self.plain_text))):
-			self.cipher_text += chr(i^self.key[j%len(self.key)])
-		return self.cipher_text
+	
 
 
 def main():
-	opt = int(input("Enter 1 for encryption-add and 2 for decryption-add or 3 for encryption-xor and 4 for decryption-xor"))
+	opt = int(input("Enter 1 for encryption-add and 2 for decryption-add [TODO: or 3 for encryption-xor and 4 for decryption-xor]"))
 	opt -= 1
 	if opt == 0:
 		plain_text = input("Enter Plain Text:\t")
@@ -78,20 +75,7 @@ def main():
 		v.padding_ignore(cipher_text)
 		p = v.decryption_add()
 		print(p)
-	elif opt==2:
-		plain_text = input("Enter Plain Text:\t")
-		sequence = ""#input("Enter sequence of character:\t")
-		key = input("Enter Key:\t")
-		cipher_text = ""
-
-		plain_text = binascii.hexlify(plain_text.encode())
-		key = binascii.hexlify(key.encode())
-
-		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
-		c = v.encryption_xor()
-		print(type(b'bruh'))
-		print(binascii.unhexlify(c))
-
+	
 
 	
 	
