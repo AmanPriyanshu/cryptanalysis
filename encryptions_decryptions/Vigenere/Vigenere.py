@@ -59,8 +59,8 @@ def main():
 		key = input("Enter Key:\t")
 		cipher_text = ""
 		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
-		v.padding_simple(len(plain_text))
-		#v.padding_ignore(plain_text)
+		#v.padding_simple(len(plain_text))
+		v.padding_ignore(plain_text)
 		c = v.encryption()
 		print(c)
 	else:
@@ -69,8 +69,8 @@ def main():
 		key = input("Enter Key:\t")
 		plain_text = ""
 		v = Vigenere_Encryption(plain_text, key, sequence, cipher_text)
-		v.padding_simple(len(cipher_text))
-		#v.padding_ignore(cipher_text)
+		#v.padding_simple(len(cipher_text))
+		v.padding_ignore(cipher_text)
 		p = v.decryption()
 		print(p)
 
