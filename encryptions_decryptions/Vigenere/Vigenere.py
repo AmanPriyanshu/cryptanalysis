@@ -118,6 +118,6 @@ def health_check():
 		
 main()
 ## TO check whether key_padding works please use the health function
-
+## Making the attack now
 ## Simple padding can be removed if we use the simple case where we can just mod key over and over again. 
 ## The issue of such padding does not exist for ex-or encryption/decryption or atleast I haven't found yet.
